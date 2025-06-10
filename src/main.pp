@@ -7,12 +7,12 @@ const
   MAX_TRIES: Integer = 3;
 
 type
-  GameState = (Win = 0, Lose = 1);
+  String05 = string[5];
 
 var
   fileIn: TextFile;
   placeholder: array[0..4] of char;
-  line: string[5] = '';
+  line: String05 = '';
   words: array of AnsiString;
   guessWord: string = '';
   i: Integer;
@@ -26,11 +26,6 @@ end;
 function HasMatch(guess: char): boolean;
 begin
   HasMatch := Pos(guess, guessWord) > 0;  
-end;
-
-function GetIndex(guess: char): Integer;
-begin
-  GetIndex := Pos(guess, guessword);
 end;
 
 function IsComplete():boolean;
@@ -48,7 +43,7 @@ function ConfirmDialog(message: string): boolean;
 var
   Answer: char;
 begin
-  Write(message, '[Y/N] ');
+  Write(message, ' [Y/N] ');
   while true do
   begin
     ReadLn(Answer); 
@@ -70,6 +65,7 @@ end;
 
 procedure ReadLines();
 begin
+  Randomize;
   Assign(fileIn, FILENAME);
   Reset(fileIn);
   SetLength(words, 0);
@@ -86,7 +82,7 @@ begin
   Close(fileIn);
 end;  
 
-procedure Reset();
+procedure ResetGame();
 var
   i: Integer;
 begin
@@ -133,12 +129,14 @@ begin
       WriteLn('You guessed wrong. Tries Left: ', MAX_TRIES - (tries + 1));
       Inc(tries);
     end;
+    
     if IsComplete() then
     begin
       WriteLn('Congrats! You win!');
       if ConfirmDialog('Do you want to try again?') = false then Exit();
 
-      Reset();
+      ResetGame();
+      tries := 0;
       guessWord := GetRandomWord();
     end;
   until tries = MAX_TRIES;
@@ -151,9 +149,7 @@ end;
 begin
   if ConfirmDialog('Start the game?') = False then Exit();
   
-  Randomize;
-  ReadLines();  
-  
   WriteLn('Welcome to terdle!!!');
+  ReadLines();  
   BeginGame();
 end.

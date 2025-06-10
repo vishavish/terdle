@@ -2,6 +2,8 @@
 
 **terdle** is a basic wordle game in your terminal  written in FreePascal.
 
+![Screenshot](https://i.imgur.com/HNhMy9k.png)
+
 ## Building
 
 This project is built with [FreePascal Compiler 3.2.2](https://www.freepascal.org/download.html) and needs to be installed to compile.
